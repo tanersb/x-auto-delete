@@ -7,9 +7,10 @@
 // @match        https://twitter.com/*
 // @grant        none
 //
-// @downloadURL  https://github.com/tanersb/x-auto-delete/raw/main/x-auto-delete.user.js
-// @updateURL    https://github.com/tanersb/x-auto-delete/raw/main/x-auto-delete.user.js
+// @downloadURL  https://raw.githubusercontent.com/tanersb/x-auto-delete/main/x-auto-delete.user.js
+// @updateURL    https://raw.githubusercontent.com/tanersb/x-auto-delete/main/x-auto-delete.user.js
 // ==/UserScript==
+
 
 (function () {
   'use strict';
