@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         X Auto Delete My Tweets
 // @namespace    https://github.com/tanersb/x-auto-delete
-// @version      1.1
+// @version      1.3
 // @description  Deletes only your own tweets on X (Twitter).
 // @match        https://x.com/*
 // @match        https://twitter.com/*
@@ -11,17 +11,43 @@
 // @updateURL    https://raw.githubusercontent.com/tanersb/x-auto-delete/main/x-auto-delete.user.js
 // ==/UserScript==
 
-
 (function () {
   'use strict';
 
   const sleep = ms => new Promise(r => setTimeout(r, ms));
   const processed = new WeakSet();
+  let running = false;
 
-  console.log("X Auto Delete started");
+  const btn = document.createElement("div");
+  btn.textContent = "START DELETE";
+  btn.style.cssText = `
+    position: fixed;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 99999;
+    background: #1d9bf0;
+    color: white;
+    font-weight: 700;
+    padding: 12px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-family: system-ui;
+    box-shadow: 0 4px 14px rgba(0,0,0,.25);
+    user-select: none;
+  `;
+
+  document.body.appendChild(btn);
+
+  btn.onclick = () => {
+    running = !running;
+    btn.textContent = running ? "STOP DELETE" : "START DELETE";
+    if (running) process();
+  };
 
   async function process() {
-    while (true) {
+    console.log("Silme başladı");
+    while (running) {
       const tweets = [...document.querySelectorAll('article[data-testid="tweet"]')]
         .filter(t => !processed.has(t));
 
@@ -61,11 +87,9 @@
 
       if (confirm) {
         confirm.click();
-        console.log("Tweet silindi");
         await sleep(800);
       }
     }
+    console.log("Silme durduruldu");
   }
-
-  setTimeout(process, 3000);
 })();
